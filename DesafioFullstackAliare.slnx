@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/mobile/">
+    <Project Path="mobile/AppMobile.csproj" />
+  </Folder>
+  <Folder Name="/server/">
+    <Project Path="server/Api.csproj" />
+  </Folder>
+</Solution>
