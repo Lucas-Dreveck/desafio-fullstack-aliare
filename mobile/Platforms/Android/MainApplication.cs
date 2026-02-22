@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace AppMobile;
+namespace Aliare.Weather.Mobile;
 
 [Application]
 public class MainApplication : MauiApplication

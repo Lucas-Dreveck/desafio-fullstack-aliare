@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace AppMobile;
+namespace Aliare.Weather.Mobile;
 
 public class Program
 {

@@ -1,18 +1,20 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Organizar requisitos e começar testes (TDD) para o server;
+- [ ] Criar service e conectar com OpenWeatherMaps (TDD);
 
-## Conclúido
+## Concluído
 - [x] Definir a estrutura base do repositório monorepo (API .NET, Vue 3 + TS, MAUI);
+- [x] Organizar domínio: entidade, interface do provider e testes unitários (TDD);
 
 ## A fazer (Backlog)
 
 ### Backend
 - [ ] Conectar DB (PostgreSQL) e organizar schemas;
-- [ ] Criar service e conectar com *[OpenWeatherMaps](https://openweathermap.org)*;
-- [ ] Criar endpoints de consulta (e health check) e validar tests unitários;
-- [ ] Criar endpoint de histórico (30 dias) com modo lat/long e cidade e validar testes de integração;
+- [ ] Criar endpoints de registro por cidade e por lat/long;
+- [ ] Criar endpoint de histórico (30 dias) com modo lat/long e cidade;
+- [ ] Validar testes unitários e de integração;
+- [ ] Configurar health check em /health;
 - [ ] Adicionar autenticação JWT;
 - [ ] Validar e toques finais ao Swagger;
 - [ ] Adicionar feature flag para troca de provedor;
@@ -25,7 +27,7 @@
 - [ ] Telas para histórico com modo de lista e gráfico;
 
 ### Mobile (Opcional)
-- [ ] Configurar Estilo e otas baseado no Frontend;
+- [ ] Configurar Estilo e rotas baseado no Frontend;
 - [ ] Conexão API;
 - [ ] Replicação das telas Frontend;
 

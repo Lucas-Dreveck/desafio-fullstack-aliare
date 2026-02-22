@@ -1,8 +1,11 @@
 <Solution>
   <Folder Name="/mobile/">
-    <Project Path="mobile/AppMobile.csproj" />
+    <Project Path="mobile/Aliare.Weather.Mobile.csproj" />
   </Folder>
-  <Folder Name="/server/">
-    <Project Path="server/Api.csproj" />
+  <Folder Name="/server/src/">
+    <Project Path="server/src/Aliare.Weather.Api/Aliare.Weather.Api.csproj" />
+  </Folder>
+  <Folder Name="/server/tests/">
+    <Project Path="server/tests/Aliare.Weather.Api.Tests/Aliare.Weather.Api.Tests.csproj" />
   </Folder>
 </Solution>

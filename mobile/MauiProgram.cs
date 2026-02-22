@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace AppMobile;
+namespace Aliare.Weather.Mobile;
 
 public static class MauiProgram
 {

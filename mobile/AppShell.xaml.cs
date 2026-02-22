@@ -1,4 +1,4 @@
-﻿namespace AppMobile;
+﻿namespace Aliare.Weather.Mobile;
 
 public partial class AppShell : Shell
 {

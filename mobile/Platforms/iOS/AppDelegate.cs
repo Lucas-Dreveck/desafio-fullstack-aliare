@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace AppMobile;
+namespace Aliare.Weather.Mobile;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate
