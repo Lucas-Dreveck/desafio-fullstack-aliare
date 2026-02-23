@@ -22,20 +22,20 @@ public class WeatherRecord
         RecordedAt = recordedAt;
     }
 
-    private static void ValidateCityName(string cityName)
+    public static void ValidateCityName(string cityName)
     {
         ArgumentNullException.ThrowIfNull(cityName);
         if (string.IsNullOrWhiteSpace(cityName))
             throw new ArgumentException("City name cannot be empty.", nameof(cityName));
     }
 
-    private static void ValidateLatitude(double latitude)
+    public static void ValidateLatitude(double latitude)
     {
         if (latitude < -90 || latitude > 90)
             throw new ArgumentOutOfRangeException(nameof(latitude), "Latitude must be between -90 and 90.");
     }
 
-    private static void ValidateLongitude(double longitude)
+    public static void ValidateLongitude(double longitude)
     {
         if (longitude < -180 || longitude > 180)
             throw new ArgumentOutOfRangeException(nameof(longitude), "Longitude must be between -180 and 180.");
