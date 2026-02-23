@@ -20,6 +20,9 @@ public static class DependencyInjection
 
         services.AddHttpClient<IWeatherProvider, OpenWeatherProvider>();
 
+        services.AddHealthChecks()
+            .AddDbContextCheck<WeatherDbContext>();
+
         return services;
     }
 }
