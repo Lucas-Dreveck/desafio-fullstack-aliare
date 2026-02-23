@@ -15,7 +15,7 @@ public class WeatherService_RegisterByCityTests
         Mock<IWeatherRepository> mockRepository = new();
 
         mockProvider
-            .Setup(p => p.GetByCityAsync("Cascavel"))
+            .Setup(p => p.GetByCityAsync("Cascavel", null, null))
             .ReturnsAsync(new WeatherResponse("Cascavel", 25.0, 90, 180));
 
         WeatherService service = new(mockProvider.Object, mockRepository.Object);
@@ -46,7 +46,7 @@ public class WeatherService_RegisterByCityTests
         Mock<IWeatherRepository> mockRepository = new();
 
         mockProvider
-            .Setup(p => p.GetByCityAsync("GhostTown"))
+            .Setup(p => p.GetByCityAsync("GhostTown", null, null))
             .ReturnsAsync((WeatherResponse?)null);
 
         WeatherService service = new(mockProvider.Object, mockRepository.Object);

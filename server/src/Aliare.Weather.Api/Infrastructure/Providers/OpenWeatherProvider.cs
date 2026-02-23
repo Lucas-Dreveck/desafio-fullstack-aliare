@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Globalization;
+using System.Net;
 using System.Text.Json;
 using Aliare.Weather.Api.Domain.Interfaces;
 using Aliare.Weather.Api.Domain.Models;
@@ -11,10 +12,15 @@ public class OpenWeatherProvider(HttpClient httpClient, IOptions<OpenWeatherOpti
 {
     private readonly OpenWeatherOptions _options = options.Value;
 
-    public async Task<WeatherResponse?> GetByCityAsync(string cityName)
+    public async Task<WeatherResponse?> GetByCityAsync(string cityName, string? stateCode = null, string? countryCode = null)
     {
-        // Getting coordinates for the city using OpenWeather's Geocoding API
-        var geoUrl = $"{_options.GeoUrl}/direct?q={Uri.EscapeDataString(cityName)}&limit=1&appid={_options.ApiKey}";
+        string query = cityName;
+        if (!string.IsNullOrWhiteSpace(stateCode))
+            query += $",{stateCode}";
+        if (!string.IsNullOrWhiteSpace(countryCode))
+            query += $",{countryCode}";
+
+        var geoUrl = $"{_options.GeoUrl}/direct?q={Uri.EscapeDataString(query)}&limit=1&appid={_options.ApiKey}";
         var geoResponse = await httpClient.GetAsync(geoUrl);
         geoResponse.EnsureSuccessStatusCode();
 
@@ -33,7 +39,10 @@ public class OpenWeatherProvider(HttpClient httpClient, IOptions<OpenWeatherOpti
 
     public async Task<WeatherResponse?> GetByCoordinatesAsync(double latitude, double longitude)
     {
-        var url = $"{_options.BaseUrl}/weather?lat={latitude}&lon={longitude}&appid={_options.ApiKey}&units=metric";
+        var url = string.Format(
+            CultureInfo.InvariantCulture,
+            "{0}/weather?lat={1}&lon={2}&appid={3}&units=metric",
+            _options.BaseUrl, latitude, longitude, _options.ApiKey);
 
         var response = await httpClient.GetAsync(url);
 
