@@ -7,7 +7,7 @@ public class WeatherService(IWeatherProvider weatherProvider, IWeatherRepository
 {
     public async Task<WeatherRecord> RegisterByCityAsync(string cityName, string? stateCode = null, string? countryCode = null)
     {
-        WeatherRecord.ValidateCityName(cityName);    
+        WeatherRecord.ValidateCityName(cityName);
         var response = await weatherProvider.GetByCityAsync(cityName, stateCode, countryCode)
             ?? throw new InvalidOperationException($"Failed to retrieve weather data for city: {cityName}");
 
