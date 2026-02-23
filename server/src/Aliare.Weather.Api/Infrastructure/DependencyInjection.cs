@@ -23,7 +23,15 @@ public static class DependencyInjection
         services.Configure<OpenWeatherOptions>(configuration.GetSection(OpenWeatherOptions.SectionName));
         services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
 
-        services.AddHttpClient<IWeatherProvider, OpenWeatherProvider>();
+        string provider = configuration.GetValue<string>("WeatherProvider") ?? "OpenWeather";
+        if (provider.Equals("Fake", StringComparison.OrdinalIgnoreCase))
+        {
+            services.AddScoped<IWeatherProvider, FakeWeatherProvider>();
+        }
+        else
+        {
+            services.AddHttpClient<IWeatherProvider, OpenWeatherProvider>();
+        }
 
         JwtOptions jwtOptions = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()!;
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
