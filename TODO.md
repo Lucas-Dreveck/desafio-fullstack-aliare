@@ -1,7 +1,7 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Criar endpoints de registro por cidade e por lat/long;
+- [ ] Validar testes unitários e de integração;
 
 ## Concluído
 - [x] Definir a estrutura base do repositório monorepo (API .NET, Vue 3 + TS, MAUI);
@@ -9,11 +9,11 @@
 - [x] Criar service com registro e histórico de temperaturas (TDD);
 - [x] Conectar DB (PostgreSQL) e organizar schemas;
 - [x] Implementar provider com *[OpenWeatherMaps](https://openweathermap.org)*;
+- [x] Criar endpoints de registro e histórico por cidade e por lat/long;
 
 ## A fazer (Backlog)
 
 ### Backend
-- [ ] Criar endpoints de registro por cidade e por lat/long;
 - [ ] Criar endpoint de histórico (30 dias) com modo lat/long e cidade;
 - [ ] Validar testes unitários e de integração;
 - [ ] Configurar health check em /health;
