@@ -1,12 +1,13 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Conectar DB (PostgreSQL) e organizar schemas;
+- [ ] Implementar provider com *[OpenWeatherMaps](https://openweathermap.org)*;
 
 ## Concluído
 - [x] Definir a estrutura base do repositório monorepo (API .NET, Vue 3 + TS, MAUI);
 - [x] Organizar domínio: entidade, interface do provider e testes unitários (TDD);
 - [x] Criar service com registro e histórico de temperaturas (TDD);
+- [x] Conectar DB (PostgreSQL) e organizar schemas;
 
 ## A fazer (Backlog)
 
