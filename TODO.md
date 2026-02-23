@@ -1,8 +1,7 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Adicionar autenticação JWT;
-
+- [ ] Validar testes unitários e de integração;
 ## Concluído
 - [x] Definir a estrutura base do repositório monorepo (API .NET, Vue 3 + TS, MAUI);
 - [x] Organizar domínio: entidade, interface do provider e testes unitários (TDD);
@@ -11,11 +10,11 @@
 - [x] Implementar provider com *[OpenWeatherMaps](https://openweathermap.org)*;
 - [x] Criar endpoints de registro e histórico por cidade e por lat/long;
 - [x] Configurar health check em /health;
+- [x] Adicionar autenticação JWT;
 
 ## A fazer (Backlog)
 
 ### Backend
-- [ ] Validar testes unitários e de integração;
 - [ ] Validar e toques finais ao Swagger;
 - [ ] Adicionar feature flag para troca de provedor;
 
