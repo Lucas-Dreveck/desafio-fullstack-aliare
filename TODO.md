@@ -1,7 +1,8 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Adicionar feature flag para troca de provedor;
+- [ ] Configurar estilo padrão e rotas (Frontend);
+
 ## Concluído
 - [x] Definir a estrutura base do repositório monorepo (API .NET, Vue 3 + TS, MAUI);
 - [x] Organizar domínio: entidade, interface do provider e testes unitários (TDD);
@@ -12,14 +13,14 @@
 - [x] Configurar health check em /health;
 - [x] Adicionar autenticação JWT;
 - [x] Validar testes unitários e de integração;
+- [x] Adicionar feature flag para troca de provedor;
 
 ## A fazer (Backlog)
 
 ### Backend
-- [ ] Adicionar feature flag para troca de provedor;
+
 
 ### Frontend
-- [ ] Configurar estilo padrão e rotas;
 - [ ] Configurar conexão API;
 - [ ] Tela para Login e validar conexão;
 - [ ] Telas para consulta;

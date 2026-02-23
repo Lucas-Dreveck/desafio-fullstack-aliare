@@ -20,24 +20,20 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     {
         builder.ConfigureServices(services =>
         {
-            // Remove the real PostgreSQL DbContext
             ServiceDescriptor? dbDescriptor = services.SingleOrDefault(
                 d => d.ServiceType == typeof(DbContextOptions<WeatherDbContext>));
             if (dbDescriptor is not null)
                 services.Remove(dbDescriptor);
 
-            // Add in-memory database with a fixed name per factory instance
             string dbName = _dbName;
             services.AddDbContext<WeatherDbContext>(options =>
                 options.UseInMemoryDatabase(dbName));
 
-            // Remove the real OpenWeather provider
             ServiceDescriptor? providerDescriptor = services.SingleOrDefault(
                 d => d.ServiceType == typeof(IWeatherProvider));
             if (providerDescriptor is not null)
                 services.Remove(providerDescriptor);
 
-            // Add mock provider
             _mockWeatherProvider
                 .Setup(p => p.GetByCityAsync("Cascavel", null, null))
                 .ReturnsAsync(new WeatherResponse("Cascavel", 25.0, -24.95, -53.45));
