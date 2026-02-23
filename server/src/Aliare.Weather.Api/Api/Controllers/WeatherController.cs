@@ -2,6 +2,7 @@ using Aliare.Weather.Api.Api.DTOs;
 using Aliare.Weather.Api.Domain.Entities;
 using Aliare.Weather.Api.Services;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Aliare.Weather.Api.Api.Controllers;
@@ -9,6 +10,7 @@ namespace Aliare.Weather.Api.Api.Controllers;
 [ApiVersion("1.0")]
 public class WeatherController(WeatherService weatherService) : BaseApiController
 {
+    [Authorize]
     [HttpPost("register/by-city")]
     public async Task<IActionResult> RegisterByCity([FromBody] RegisterByCityRequest request)
     {
@@ -27,6 +29,7 @@ public class WeatherController(WeatherService weatherService) : BaseApiControlle
         }
     }
 
+    [Authorize]
     [HttpPost("register/by-coordinates")]
     public async Task<IActionResult> RegisterByCoordinates([FromBody] RegisterByCoordinatesRequest request)
     {

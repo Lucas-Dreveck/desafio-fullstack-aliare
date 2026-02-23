@@ -3,7 +3,7 @@ using Aliare.Weather.Api.Domain.Entities;
 using Aliare.Weather.Api.Domain.Interfaces;
 using Aliare.Weather.Api.Services;
 
-namespace Aliare.Weather.Api.Tests.Services;
+namespace Aliare.Weather.Api.Tests.Services.Weather;
 
 public class WeatherService_GetHistoryByCityTests
 {

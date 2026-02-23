@@ -1,6 +1,6 @@
-﻿using Aliare.Weather.Api.Domain.Entities;
+using Aliare.Weather.Api.Domain.Entities;
 
-namespace Aliare.Weather.Api.Tests.Domain;
+namespace Aliare.Weather.Api.Tests.Domain.Weather;
 
 public class WeatherRecordTests
 {

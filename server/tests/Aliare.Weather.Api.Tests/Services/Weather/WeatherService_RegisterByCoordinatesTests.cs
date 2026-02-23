@@ -4,7 +4,7 @@ using Aliare.Weather.Api.Domain.Interfaces;
 using Aliare.Weather.Api.Domain.Models;
 using Aliare.Weather.Api.Services;
 
-namespace Aliare.Weather.Api.Tests.Services;
+namespace Aliare.Weather.Api.Tests.Services.Weather;
 
 public class WeatherService_RegisterByCoordinatesTests
 {
