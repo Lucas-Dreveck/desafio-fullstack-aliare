@@ -1,7 +1,7 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Tela de Login e registro de usuário;
+- [ ] Tela de Dashboard para consulta de temperatura;
 
 ## Concluído
 
@@ -19,6 +19,7 @@
 ### Frontend
 - [x] Configurar estilo padrão e rotas;
 - [x] Configurar conexão API e interceptor JWT (Frontend);
+- [x] Tela de Login e registro de usuário;
 
 ### Mobile (Opcional)
 - Nenhuma tarefa no momento
@@ -30,10 +31,9 @@
 ## A fazer (Backlog)
 
 ### Backend
-- Nenhuma tarefa no momento
+- [ ] Implementar refresh token (backend + frontend);
 
 ### Frontend
-- [ ] Tela de Dashboard para consulta de temperatura;
 - [ ] Tela de Histórico com lista e gráfico;
 
 ### Mobile (Opcional)
