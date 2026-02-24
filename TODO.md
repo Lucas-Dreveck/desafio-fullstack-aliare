@@ -1,10 +1,11 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Configurar estilo padrão e rotas (Frontend);
+- [ ] Configurar conexão API e interceptor JWT (Frontend);
 
 ## Concluído
-- [x] Definir a estrutura base do repositório monorepo (API .NET, Vue 3 + TS, MAUI);
+
+### Backend
 - [x] Organizar domínio: entidade, interface do provider e testes unitários (TDD);
 - [x] Criar service com registro e histórico de temperaturas (TDD);
 - [x] Conectar DB (PostgreSQL) e organizar schemas;
@@ -15,16 +16,25 @@
 - [x] Validar testes unitários e de integração;
 - [x] Adicionar feature flag para troca de provedor;
 
+### Frontend
+- [x] Configurar estilo padrão e rotas;
+
+### Mobile (Opcional)
+- Nenhuma tarefa no momento
+
+### DevOps
+- [x] Definir a estrutura base do repositório monorepo (API .NET, Vue 3 + TS, MAUI);
+- [x] GitHub Actions parcial (server);
+
 ## A fazer (Backlog)
 
 ### Backend
-
+- Nenhuma tarefa no momento
 
 ### Frontend
-- [ ] Configurar conexão API;
-- [ ] Tela para Login e validar conexão;
-- [ ] Telas para consulta;
-- [ ] Telas para histórico com modo de lista e gráfico;
+- [ ] Tela de Login e registro de usuário;
+- [ ] Tela de Dashboard para consulta de temperatura;
+- [ ] Tela de Histórico com lista e gráfico;
 
 ### Mobile (Opcional)
 - [ ] Configurar Estilo e rotas baseado no Frontend;
@@ -34,4 +44,4 @@
 ### DevOps
 - [ ] Configurar `docker-compose.yml` e publicar imagem no Docker Hub;
 - [ ] Documentar e guiar execução do projeto no `README.md`;
-- [ ] Configurar GitHub Actions;
+- [ ] Configurar GitHub Actions (completamente);
