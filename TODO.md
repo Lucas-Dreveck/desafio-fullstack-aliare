@@ -1,7 +1,7 @@
 # Plano de ação
 
 ## Em Andamento
-- Nenhuma tarefa no momento
+- [ ] Substituir `var` por tipos explícitos em todo o backend;
 
 ## Concluído
 
@@ -36,13 +36,15 @@
 ## A fazer (Backlog)
 
 ### Backend
+- [ ] Inserir UID público no User — não expor IDs sequenciais;
+- [ ] Tratar cidades homônimas e tolerância de coordenadas no histórico;
 - [ ] Implementar refresh token (backend + frontend);
 
 ### Frontend
 - [ ] Implementar testes e2e com Playwright;
 
 ### DevOps
-- Nenhuma tarefa no momento
+- [ ] Publicar imagens no Docker Hub;
 
 ### Mobile (Opcional)
 - [ ] Configurar Estilo e rotas baseado no Frontend;
