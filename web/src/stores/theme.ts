@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
 
 export type ThemeMode = 'light' | 'dark' | 'auto'
@@ -17,6 +17,11 @@ function applyTheme(mode: ThemeMode): void {
 export const useThemeStore = defineStore('theme', () => {
   const stored: string | null = localStorage.getItem(STORAGE_KEY)
   const mode = ref<ThemeMode>((stored as ThemeMode) || 'auto')
+  const systemTheme = ref<'light' | 'dark'>(getSystemTheme())
+
+  const resolvedTheme = computed<'light' | 'dark'>(() =>
+    mode.value === 'auto' ? systemTheme.value : mode.value,
+  )
 
   function setMode(newMode: ThemeMode): void {
     mode.value = newMode
@@ -32,10 +37,11 @@ export const useThemeStore = defineStore('theme', () => {
 
   // Sync with OS changes when mode is 'auto'
   globalThis.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    systemTheme.value = getSystemTheme()
     if (mode.value === 'auto') {
       applyTheme('auto')
     }
   })
 
-  return { mode, setMode, toggle }
+  return { mode, resolvedTheme, setMode, toggle }
 })

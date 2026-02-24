@@ -1,7 +1,7 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Gráfico de histórico (Chart.js + vue-chartjs);
+- [ ] Implementar testes frontend e validá-los;
 
 ## Concluído
 
@@ -21,6 +21,7 @@
 - [x] Configurar conexão API e interceptor JWT (Frontend);
 - [x] Tela de Login e registro de usuário;
 - [x] Dashboard com registro de temperatura e consulta de histórico;
+- [x] Gráfico de histórico (Chart.js + vue-chartjs);
 
 ### Mobile (Opcional)
 - Nenhuma tarefa no momento
@@ -35,14 +36,14 @@
 - [ ] Implementar refresh token (backend + frontend);
 
 ### Frontend
-- [ ] Implementar testes e valida-los;
-
-### Mobile (Opcional)
-- [ ] Configurar Estilo e rotas baseado no Frontend;
-- [ ] Conexão API;
-- [ ] Replicação das telas Frontend;
+- Nenhuma tarefa no momento
 
 ### DevOps
 - [ ] Configurar `docker-compose.yml` e publicar imagem no Docker Hub;
 - [ ] Documentar e guiar execução do projeto no `README.md`;
 - [ ] Configurar GitHub Actions (completamente);
+
+### Mobile (Opcional)
+- [ ] Configurar Estilo e rotas baseado no Frontend;
+- [ ] Conexão API;
+- [ ] Replicação das telas Frontend;
