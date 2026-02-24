@@ -1,7 +1,7 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Implementar testes frontend e validá-los;
+- [ ] Configurar GitHub Actions (completamente);
 
 ## Concluído
 
@@ -22,6 +22,7 @@
 - [x] Tela de Login e registro de usuário;
 - [x] Dashboard com registro de temperatura e consulta de histórico;
 - [x] Gráfico de histórico (Chart.js + vue-chartjs);
+- [x] Implementar testes unitários e de componente;
 
 ### Mobile (Opcional)
 - Nenhuma tarefa no momento
@@ -41,7 +42,6 @@
 ### DevOps
 - [ ] Configurar `docker-compose.yml` e publicar imagem no Docker Hub;
 - [ ] Documentar e guiar execução do projeto no `README.md`;
-- [ ] Configurar GitHub Actions (completamente);
 
 ### Mobile (Opcional)
 - [ ] Configurar Estilo e rotas baseado no Frontend;
