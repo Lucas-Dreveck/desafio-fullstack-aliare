@@ -5,6 +5,8 @@ import { AUTH_TOKEN_KEY } from '@/api/client'
 import { authService } from '@/services/authService'
 import type { LoginRequest, RegisterUserRequest } from '@/types/auth'
 import type { ApiErrorResponse } from '@/types/api'
+import { isTokenExpired, decodeJwt } from '@/utils/jwt'
+import type { JwtPayload } from '@/utils/jwt'
 
 function extractErrorMessage(error: unknown): string {
   const axiosError = error as AxiosError<ApiErrorResponse>
@@ -26,10 +28,28 @@ async function registerRequest(request: RegisterUserRequest): Promise<string> {
   return response.message
 }
 
+function loadValidToken(): string | null {
+  const stored: string | null = localStorage.getItem(AUTH_TOKEN_KEY)
+
+  if (!stored || isTokenExpired(stored)) {
+    localStorage.removeItem(AUTH_TOKEN_KEY)
+    return null
+  }
+
+  return stored
+}
+
 export const useAuthStore = defineStore('auth', () => {
-  const token = ref<string | null>(localStorage.getItem(AUTH_TOKEN_KEY))
+  const token = ref<string | null>(loadValidToken())
 
   const isAuthenticated = computed<boolean>(() => token.value !== null)
+
+  const userPayload = computed<JwtPayload | null>(() => {
+    if (!token.value) return null
+    return decodeJwt(token.value)
+  })
+
+  const username = computed<string>(() => userPayload.value?.unique_name ?? '')
 
   function setToken(newToken: string): void {
     token.value = newToken
@@ -53,6 +73,7 @@ export const useAuthStore = defineStore('auth', () => {
   return {
     token,
     isAuthenticated,
+    username,
     login,
     register: registerRequest,
     logout,
