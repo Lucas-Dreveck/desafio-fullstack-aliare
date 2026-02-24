@@ -1,7 +1,7 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Documentar e guiar execução do projeto no `README.md`;
+- [ ] Substituir `var` por tipos explícitos em todo o backend;
 
 ## Concluído
 
@@ -31,17 +31,20 @@
 - [x] Definir a estrutura base do repositório monorepo (API .NET, Vue 3 + TS, MAUI);
 - [x] GitHub Actions completo (server + web);
 - [x] Configurar Docker Compose (API + PostgreSQL + Frontend via nginx);
+- [x] Documentar e guiar execução do projeto no `README.md`;
 
 ## A fazer (Backlog)
 
 ### Backend
+- [ ] Inserir UID público no User — não expor IDs sequenciais;
+- [ ] Tratar cidades homônimas e tolerância de coordenadas no histórico;
 - [ ] Implementar refresh token (backend + frontend);
 
 ### Frontend
 - [ ] Implementar testes e2e com Playwright;
 
 ### DevOps
-- Nenhuma tarefa no momento
+- [ ] Publicar imagens no Docker Hub;
 
 ### Mobile (Opcional)
 - [ ] Configurar Estilo e rotas baseado no Frontend;
