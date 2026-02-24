@@ -1,7 +1,7 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Configurar conexão API e interceptor JWT (Frontend);
+- [ ] Tela de Login e registro de usuário;
 
 ## Concluído
 
@@ -18,6 +18,7 @@
 
 ### Frontend
 - [x] Configurar estilo padrão e rotas;
+- [x] Configurar conexão API e interceptor JWT (Frontend);
 
 ### Mobile (Opcional)
 - Nenhuma tarefa no momento
@@ -32,7 +33,6 @@
 - Nenhuma tarefa no momento
 
 ### Frontend
-- [ ] Tela de Login e registro de usuário;
 - [ ] Tela de Dashboard para consulta de temperatura;
 - [ ] Tela de Histórico com lista e gráfico;
 
