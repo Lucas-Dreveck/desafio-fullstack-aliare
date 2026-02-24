@@ -1,7 +1,7 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Configurar GitHub Actions (completamente);
+- [ ] Configurar `docker-compose.yml` e publicar imagem no Docker Hub;
 
 ## Concluído
 
@@ -29,7 +29,7 @@
 
 ### DevOps
 - [x] Definir a estrutura base do repositório monorepo (API .NET, Vue 3 + TS, MAUI);
-- [x] GitHub Actions parcial (server);
+- [x] GitHub Actions completo (server + web);
 
 ## A fazer (Backlog)
 
@@ -37,10 +37,9 @@
 - [ ] Implementar refresh token (backend + frontend);
 
 ### Frontend
-- Nenhuma tarefa no momento
+- [ ] Implementar testes e2e com Playwright;
 
 ### DevOps
-- [ ] Configurar `docker-compose.yml` e publicar imagem no Docker Hub;
 - [ ] Documentar e guiar execução do projeto no `README.md`;
 
 ### Mobile (Opcional)
