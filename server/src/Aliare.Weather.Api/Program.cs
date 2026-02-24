@@ -1,6 +1,8 @@
 using Aliare.Weather.Api.Infrastructure;
+using Aliare.Weather.Api.Infrastructure.Data;
 using Aliare.Weather.Api.Services;
 using Asp.Versioning;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,11 +42,15 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (app.Configuration.GetValue<bool>("RunMigrations"))
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    using IServiceScope scope = app.Services.CreateScope();
+    WeatherDbContext db = scope.ServiceProvider.GetRequiredService<WeatherDbContext>();
+    await db.Database.MigrateAsync();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
@@ -52,6 +58,9 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapHealthChecks("/health");
 
-app.Run();
+await app.RunAsync();
 
-public partial class Program { }
+public partial class Program
+{
+    private Program() { }
+}

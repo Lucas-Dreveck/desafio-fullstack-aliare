@@ -1,7 +1,7 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Configurar `docker-compose.yml` e publicar imagem no Docker Hub;
+- [ ] Documentar e guiar execução do projeto no `README.md`;
 
 ## Concluído
 
@@ -30,6 +30,7 @@
 ### DevOps
 - [x] Definir a estrutura base do repositório monorepo (API .NET, Vue 3 + TS, MAUI);
 - [x] GitHub Actions completo (server + web);
+- [x] Configurar Docker Compose (API + PostgreSQL + Frontend via nginx);
 
 ## A fazer (Backlog)
 
@@ -40,7 +41,7 @@
 - [ ] Implementar testes e2e com Playwright;
 
 ### DevOps
-- [ ] Documentar e guiar execução do projeto no `README.md`;
+- Nenhuma tarefa no momento
 
 ### Mobile (Opcional)
 - [ ] Configurar Estilo e rotas baseado no Frontend;
