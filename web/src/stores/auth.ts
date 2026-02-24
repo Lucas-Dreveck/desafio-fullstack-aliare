@@ -9,6 +9,10 @@ import { isTokenExpired, decodeJwt } from '@/utils/jwt'
 import type { JwtPayload } from '@/utils/jwt'
 
 function extractErrorMessage(error: unknown): string {
+  if (!error) {
+    return 'Ocorreu um erro inesperado. Tente novamente.'
+  }
+
   const axiosError = error as AxiosError<ApiErrorResponse>
 
   if (axiosError.response?.data?.error) {
