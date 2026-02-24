@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/theme'
+import { useAuthStore } from '@/stores/auth'
 
 const themeStore = useThemeStore()
+const authStore = useAuthStore()
+const router = useRouter()
 
 const themeIcon = computed<string>(() => {
   if (themeStore.mode === 'auto') return '🌗'
@@ -14,6 +17,11 @@ const themeLabel = computed<string>(() => {
   if (themeStore.mode === 'auto') return 'Automático'
   return themeStore.mode === 'dark' ? 'Escuro' : 'Claro'
 })
+
+async function handleLogout(): Promise<void> {
+  authStore.logout()
+  await router.push({ name: 'login' })
+}
 </script>
 
 <template>
@@ -40,9 +48,12 @@ const themeLabel = computed<string>(() => {
         >
           {{ themeIcon }}
         </button>
-        <RouterLink to="/login" class="btn btn--outline btn--sm">
+        <RouterLink to="/login" v-if="!authStore.isAuthenticated" class="btn btn--outline btn--sm">
           Entrar
         </RouterLink>
+        <button v-else class="btn btn--outline btn--sm" @click="handleLogout">
+          Sair
+        </button>
       </div>
     </div>
   </nav>
