@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { weatherService } from '@/services/weatherService'
+import HistoryChart from '@/components/HistoryChart.vue'
 import type { WeatherRecordResponse } from '@/types/weather'
 import type { AxiosError } from 'axios'
 import type { ApiErrorResponse } from '@/types/api'
@@ -428,6 +429,8 @@ function formatCoordinates(lat: number, lon: number): string {
               </tr>
             </tbody>
           </table>
+
+          <HistoryChart :records="historyRecords" />
         </div>
       </div>
     </section>
