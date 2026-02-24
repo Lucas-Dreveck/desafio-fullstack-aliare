@@ -1,7 +1,7 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Tela de Dashboard para consulta de temperatura;
+- [ ] Gráfico de histórico (Chart.js + vue-chartjs);
 
 ## Concluído
 
@@ -20,6 +20,7 @@
 - [x] Configurar estilo padrão e rotas;
 - [x] Configurar conexão API e interceptor JWT (Frontend);
 - [x] Tela de Login e registro de usuário;
+- [x] Dashboard com registro de temperatura e consulta de histórico;
 
 ### Mobile (Opcional)
 - Nenhuma tarefa no momento
@@ -34,7 +35,7 @@
 - [ ] Implementar refresh token (backend + frontend);
 
 ### Frontend
-- [ ] Tela de Histórico com lista e gráfico;
+- [ ] Implementar testes e valida-los;
 
 ### Mobile (Opcional)
 - [ ] Configurar Estilo e rotas baseado no Frontend;

@@ -35,9 +35,6 @@ async function handleLogout(): Promise<void> {
         <RouterLink to="/" class="navbar__link">
           Dashboard
         </RouterLink>
-        <RouterLink to="/history" class="navbar__link">
-          Histórico
-        </RouterLink>
       </div>
 
       <div class="navbar__actions">
