@@ -1,7 +1,7 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Implementar testes e2e com Playwright;
+- [ ] Publicar imagens no Docker Hub;
 
 ## Concluído
 
@@ -29,6 +29,7 @@
 - [x] Implementar testes unitários e de componente;
 - [x] Tratar cidades homônimas e tolerância de coordenadas no histórico (frontend);
 - [x] Implementar refresh token (frontend);
+- [x] Implementar testes e2e com Playwright;
 
 ### Mobile (Opcional)
 - Nenhuma tarefa no momento
@@ -48,7 +49,6 @@
 - Nenhuma tarefa no momento
 
 ### DevOps
-- [ ] Publicar imagens no Docker Hub;
 
 ### Mobile (Opcional)
 - [ ] Configurar Estilo e rotas baseado no Frontend;
