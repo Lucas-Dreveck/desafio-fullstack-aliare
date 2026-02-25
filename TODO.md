@@ -1,7 +1,7 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Tratar cidades homônimas e tolerância de coordenadas no histórico;
+- [ ] Implementar refresh token (backend + frontend);
 
 ## Concluído
 
@@ -17,6 +17,7 @@
 - [x] Adicionar feature flag para troca de provedor;
 - [x] Substituir `var` por tipos explícitos em todo o backend;
 - [x] Usar Guid como chave primária do User em vez de int sequencial;
+- [x] Tratar cidades homônimas e tolerância de coordenadas no histórico (backend);
 
 ### Frontend
 - [x] Configurar estilo padrão e rotas;
@@ -25,6 +26,7 @@
 - [x] Dashboard com registro de temperatura e consulta de histórico;
 - [x] Gráfico de histórico (Chart.js + vue-chartjs);
 - [x] Implementar testes unitários e de componente;
+- [x] Tratar cidades homônimas e tolerância de coordenadas no histórico (frontend);
 
 ### Mobile (Opcional)
 - Nenhuma tarefa no momento
@@ -38,7 +40,7 @@
 ## A fazer (Backlog)
 
 ### Backend
-- [ ] Implementar refresh token (backend + frontend);
+- Nenhuma tarefa no momento
 
 ### Frontend
 - [ ] Implementar testes e2e com Playwright;

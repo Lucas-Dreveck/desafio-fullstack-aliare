@@ -1,7 +1,7 @@
 export interface RegisterByCityRequest {
-  cityName: string
-  stateCode?: string
-  countryCode?: string
+  city: string
+  state?: string
+  country?: string
 }
 
 export interface RegisterByCoordinatesRequest {
@@ -11,7 +11,9 @@ export interface RegisterByCoordinatesRequest {
 
 export interface WeatherRecordResponse {
   id: number
-  cityName: string
+  city: string
+  country: string | null
+  state: string | null
   temperature: number
   latitude: number
   longitude: number
