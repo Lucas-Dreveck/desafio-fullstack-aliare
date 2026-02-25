@@ -15,7 +15,8 @@ public class AuthService_RegisterTests
         SecretKey = "TestSecretKeyThatIsAtLeast32Characters!",
         Issuer = "TestIssuer",
         Audience = "TestAudience",
-        ExpirationInMinutes = 60
+        ExpirationInMinutes = 15,
+        RefreshTokenExpirationInDays = 7
     });
 
     [Fact]

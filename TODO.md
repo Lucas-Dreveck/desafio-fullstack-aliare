@@ -1,7 +1,7 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Implementar refresh token (backend + frontend);
+- [ ] Implementar testes e2e com Playwright;
 
 ## Concluído
 
@@ -18,6 +18,7 @@
 - [x] Substituir `var` por tipos explícitos em todo o backend;
 - [x] Usar Guid como chave primária do User em vez de int sequencial;
 - [x] Tratar cidades homônimas e tolerância de coordenadas no histórico (backend);
+- [x] Implementar refresh token (backend);
 
 ### Frontend
 - [x] Configurar estilo padrão e rotas;
@@ -27,6 +28,7 @@
 - [x] Gráfico de histórico (Chart.js + vue-chartjs);
 - [x] Implementar testes unitários e de componente;
 - [x] Tratar cidades homônimas e tolerância de coordenadas no histórico (frontend);
+- [x] Implementar refresh token (frontend);
 
 ### Mobile (Opcional)
 - Nenhuma tarefa no momento
@@ -43,7 +45,7 @@
 - Nenhuma tarefa no momento
 
 ### Frontend
-- [ ] Implementar testes e2e com Playwright;
+- Nenhuma tarefa no momento
 
 ### DevOps
 - [ ] Publicar imagens no Docker Hub;

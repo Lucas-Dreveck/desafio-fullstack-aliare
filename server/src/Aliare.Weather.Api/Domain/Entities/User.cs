@@ -7,6 +7,8 @@ public class User
     public string Email { get; private set; }
     public string PasswordHash { get; private set; }
     public DateTime CreatedAt { get; private set; }
+    public string? RefreshToken { get; private set; }
+    public DateTime? RefreshTokenExpiresAt { get; private set; }
 
     public User(string username, string email, string passwordHash)
     {
@@ -17,6 +19,18 @@ public class User
         Email = email;
         PasswordHash = passwordHash;
         CreatedAt = DateTime.UtcNow;
+    }
+
+    public void SetRefreshToken(string token, DateTime expiresAt)
+    {
+        RefreshToken = token;
+        RefreshTokenExpiresAt = expiresAt;
+    }
+
+    public void ClearRefreshToken()
+    {
+        RefreshToken = null;
+        RefreshTokenExpiresAt = null;
     }
 
     public static void ValidateUsername(string username)

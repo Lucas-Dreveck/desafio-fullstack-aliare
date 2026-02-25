@@ -1,0 +1,16 @@
+{
+  "sqltools.connections": [
+    {
+      "ssh": "Disabled",
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "test",
+      "group": "test",
+      "database": "aliare_weather",
+      "username": "postgres",
+      "password": "postgres"
+    }
+  ]
+}

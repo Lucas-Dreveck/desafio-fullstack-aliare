@@ -29,7 +29,16 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(e => e.CreatedAt)
             .IsRequired();
 
+        builder.Property(e => e.RefreshToken)
+            .HasMaxLength(200);
+
+        builder.Property(e => e.RefreshTokenExpiresAt);
+
         builder.HasIndex(e => e.Email)
             .IsUnique();
+
+        builder.HasIndex(e => e.RefreshToken)
+            .IsUnique()
+            .HasFilter("\"RefreshToken\" IS NOT NULL");
     }
 }
