@@ -1,7 +1,7 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Inserir UID público no User — não expor IDs sequenciais;
+- [ ] Tratar cidades homônimas e tolerância de coordenadas no histórico;
 
 ## Concluído
 
@@ -16,6 +16,7 @@
 - [x] Validar testes unitários e de integração;
 - [x] Adicionar feature flag para troca de provedor;
 - [x] Substituir `var` por tipos explícitos em todo o backend;
+- [x] Usar Guid como chave primária do User em vez de int sequencial;
 
 ### Frontend
 - [x] Configurar estilo padrão e rotas;
@@ -37,7 +38,6 @@
 ## A fazer (Backlog)
 
 ### Backend
-- [ ] Tratar cidades homônimas e tolerância de coordenadas no histórico;
 - [ ] Implementar refresh token (backend + frontend);
 
 ### Frontend

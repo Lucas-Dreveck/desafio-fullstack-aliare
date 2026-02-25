@@ -15,6 +15,23 @@ public class UserTests
     }
 
     [Fact]
+    public void Constructor_ShouldGenerateNonEmptyId()
+    {
+        User user = new("aliare", "aliare@test.com", "hashedpassword");
+
+        Assert.NotEqual(Guid.Empty, user.Id);
+    }
+
+    [Fact]
+    public void Constructor_ShouldGenerateUniqueIds()
+    {
+        User user1 = new("aliare1", "aliare1@test.com", "hashedpassword");
+        User user2 = new("aliare2", "aliare2@test.com", "hashedpassword");
+
+        Assert.NotEqual(user1.Id, user2.Id);
+    }
+
+    [Fact]
     public void Constructor_WithEmptyUsername_ShouldThrowException()
     {
         Assert.Throws<ArgumentException>(() => new User("", "aliare@test.com", "hashedpassword"));
