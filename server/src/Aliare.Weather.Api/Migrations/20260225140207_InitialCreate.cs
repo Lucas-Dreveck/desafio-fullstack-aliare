@@ -20,7 +20,9 @@ namespace Aliare.Weather.Api.Migrations
                     Username = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
                     PasswordHash = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    RefreshToken = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    RefreshTokenExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -51,6 +53,13 @@ namespace Aliare.Weather.Api.Migrations
                 table: "users",
                 column: "Email",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_users_RefreshToken",
+                table: "users",
+                column: "RefreshToken",
+                unique: true,
+                filter: "\"RefreshToken\" IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_weather_records_City",

@@ -39,6 +39,13 @@ namespace Aliare.Weather.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("RefreshToken")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateTime?>("RefreshTokenExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -48,6 +55,10 @@ namespace Aliare.Weather.Api.Migrations
 
                     b.HasIndex("Email")
                         .IsUnique();
+
+                    b.HasIndex("RefreshToken")
+                        .IsUnique()
+                        .HasFilter("\"RefreshToken\" IS NOT NULL");
 
                     b.ToTable("users", (string)null);
                 });
