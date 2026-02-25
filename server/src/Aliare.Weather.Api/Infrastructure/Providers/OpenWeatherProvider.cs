@@ -12,13 +12,13 @@ public class OpenWeatherProvider(HttpClient httpClient, IOptions<OpenWeatherOpti
 {
     private readonly OpenWeatherOptions _options = options.Value;
 
-    public async Task<WeatherResponse?> GetByCityAsync(string cityName, string? stateCode = null, string? countryCode = null)
+    public async Task<WeatherResponse?> GetByCityAsync(string city, string? state = null, string? country = null)
     {
-        string query = cityName;
-        if (!string.IsNullOrWhiteSpace(stateCode))
-            query += $",{stateCode}";
-        if (!string.IsNullOrWhiteSpace(countryCode))
-            query += $",{countryCode}";
+        string query = city;
+        if (!string.IsNullOrWhiteSpace(state))
+            query += $",{state}";
+        if (!string.IsNullOrWhiteSpace(country))
+            query += $",{country}";
 
         string geoUrl = $"{_options.GeoUrl}/direct?q={Uri.EscapeDataString(query)}&limit=1&appid={_options.ApiKey}";
         HttpResponseMessage geoResponse = await httpClient.GetAsync(geoUrl);
@@ -33,11 +33,28 @@ public class OpenWeatherProvider(HttpClient httpClient, IOptions<OpenWeatherOpti
         JsonElement location = geoArray[0];
         double lat = location.GetProperty("lat").GetDouble();
         double lon = location.GetProperty("lon").GetDouble();
+        string? resolvedCountry = location.TryGetProperty("country", out JsonElement countryEl) ? countryEl.GetString() : null;
+        string? resolvedState = location.TryGetProperty("state", out JsonElement stateEl) ? stateEl.GetString() : null;
 
-        return await GetByCoordinatesAsync(lat, lon);
+        WeatherResponse? weatherData = await FetchWeatherAsync(lat, lon);
+        if (weatherData is null)
+            return null;
+
+        return weatherData with { Country = resolvedCountry, State = resolvedState };
     }
 
     public async Task<WeatherResponse?> GetByCoordinatesAsync(double latitude, double longitude)
+    {
+        WeatherResponse? weatherData = await FetchWeatherAsync(latitude, longitude);
+        if (weatherData is null)
+            return null;
+
+        (string? country, string? state) = await ReverseGeocodeAsync(weatherData.Latitude, weatherData.Longitude);
+
+        return weatherData with { Country = country, State = state };
+    }
+
+    private async Task<WeatherResponse?> FetchWeatherAsync(double latitude, double longitude)
     {
         string url = string.Format(
             CultureInfo.InvariantCulture,
@@ -55,10 +72,37 @@ public class OpenWeatherProvider(HttpClient httpClient, IOptions<OpenWeatherOpti
         JsonElement root = JsonDocument.Parse(json).RootElement;
 
         return new WeatherResponse(
-            CityName: root.GetProperty("name").GetString()!,
+            City: root.GetProperty("name").GetString()!,
             Temperature: root.GetProperty("main").GetProperty("temp").GetDouble(),
             Latitude: root.GetProperty("coord").GetProperty("lat").GetDouble(),
-            Longitude: root.GetProperty("coord").GetProperty("lon").GetDouble()
+            Longitude: root.GetProperty("coord").GetProperty("lon").GetDouble(),
+            Country: null,
+            State: null
         );
+    }
+
+    private async Task<(string? Country, string? State)> ReverseGeocodeAsync(double latitude, double longitude)
+    {
+        string url = string.Format(
+            CultureInfo.InvariantCulture,
+            "{0}/reverse?lat={1}&lon={2}&limit=1&appid={3}",
+            _options.GeoUrl, latitude, longitude, _options.ApiKey);
+
+        HttpResponseMessage response = await httpClient.GetAsync(url);
+
+        if (!response.IsSuccessStatusCode)
+            return (null, null);
+
+        string json = await response.Content.ReadAsStringAsync();
+        JsonElement array = JsonDocument.Parse(json).RootElement;
+
+        if (array.GetArrayLength() == 0)
+            return (null, null);
+
+        JsonElement location = array[0];
+        string? country = location.TryGetProperty("country", out JsonElement countryEl) ? countryEl.GetString() : null;
+        string? state = location.TryGetProperty("state", out JsonElement stateEl) ? stateEl.GetString() : null;
+
+        return (country, state);
     }
 }

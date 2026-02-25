@@ -12,14 +12,20 @@ public class WeatherRepository(WeatherDbContext context) : IWeatherRepository
         await context.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<WeatherRecord>> GetByCityAsync(string cityName, int days = 30)
+    public async Task<IEnumerable<WeatherRecord>> GetByCityAsync(string city, string? state = null, string? country = null, int days = 30)
     {
         DateTime since = DateTime.UtcNow.AddDays(-days);
 
-        return await context.WeatherRecords
-            .Where(r => r.CityName == cityName && r.RecordedAt >= since)
-            .OrderByDescending(r => r.RecordedAt)
-            .ToListAsync();
+        IQueryable<WeatherRecord> query = context.WeatherRecords
+            .Where(r => r.City == city && r.RecordedAt >= since);
+
+        if (!string.IsNullOrWhiteSpace(state))
+            query = query.Where(r => r.State == state);
+       
+        if (!string.IsNullOrWhiteSpace(country))
+            query = query.Where(r => r.Country == country);
+
+        return await query.OrderByDescending(r => r.RecordedAt).ToListAsync();
     }
 
     public async Task<IEnumerable<WeatherRecord>> GetByCoordinatesAsync(double latitude, double longitude, int days = 30)
