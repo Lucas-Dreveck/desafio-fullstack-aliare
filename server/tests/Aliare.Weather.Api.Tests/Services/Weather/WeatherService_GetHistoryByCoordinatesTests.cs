@@ -15,9 +15,9 @@ public class WeatherService_GetHistoryByCoordinatesTests
 
         List<WeatherRecord> mockData =
         [
-            new("Cascavel", 25.0, 90, 180, DateTime.UtcNow),
-            new("Cascavel", 25.0, 90, 180, DateTime.UtcNow.AddDays(-1)),
-            new("Cascavel", 26.0, 90, 180, DateTime.UtcNow.AddDays(-2)),
+            new("Cascavel", 25.0, 90, 180, DateTime.UtcNow, "Paraná", "BR"),
+            new("Cascavel", 25.0, 90, 180, DateTime.UtcNow.AddDays(-1), "Paraná", "BR"),
+            new("Cascavel", 26.0, 90, 180, DateTime.UtcNow.AddDays(-2), "Paraná", "BR"),
         ];
 
         mockRepository

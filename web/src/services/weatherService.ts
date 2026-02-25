@@ -18,9 +18,14 @@ async function registerByCoordinates(request: RegisterByCoordinatesRequest): Pro
   return response.data
 }
 
-async function getHistoryByCity(cityName: string): Promise<WeatherRecordResponse[]> {
+async function getHistoryByCity(
+  city: string,
+  state?: string,
+  country?: string,
+): Promise<WeatherRecordResponse[]> {
   const response: AxiosResponse<WeatherRecordResponse[]> = await apiClient.get(
-    `/weather/history/by-city/${encodeURIComponent(cityName)}`,
+    `/weather/history/by-city/${encodeURIComponent(city)}`,
+    { params: { state, country } },
   )
   return response.data
 }

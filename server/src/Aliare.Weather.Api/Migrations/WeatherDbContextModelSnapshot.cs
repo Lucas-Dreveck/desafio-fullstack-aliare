@@ -60,10 +60,14 @@ namespace Aliare.Weather.Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CityName")
+                    b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
+
+                    b.Property<string>("Country")
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
 
                     b.Property<double>("Latitude")
                         .HasColumnType("double precision");
@@ -74,12 +78,16 @@ namespace Aliare.Weather.Api.Migrations
                     b.Property<DateTime>("RecordedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("State")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
                     b.Property<double>("Temperature")
                         .HasColumnType("double precision");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CityName");
+                    b.HasIndex("City");
 
                     b.HasIndex("Latitude", "Longitude");
 

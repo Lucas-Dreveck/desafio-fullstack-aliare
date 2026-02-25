@@ -17,9 +17,9 @@ const registerLoading = ref<boolean>(false)
 const registerError = ref<string>('')
 const registerResult = ref<WeatherRecordResponse | null>(null)
 
-const registerCityName = ref<string>('')
-const registerStateCode = ref<string>('')
-const registerCountryCode = ref<string>('')
+const registerCity = ref<string>('')
+const registerState = ref<string>('')
+const registerCountry = ref<string>('')
 const registerLatitude = ref<string>('')
 const registerLongitude = ref<string>('')
 
@@ -41,7 +41,7 @@ const longitudeError = computed<string>(() => {
 
 const isRegisterValid = computed<boolean>(() => {
   if (registerTab.value === 'city') {
-    return registerCityName.value.trim().length > 0
+    return registerCity.value.trim().length > 0
   }
   return (
     registerLatitude.value !== '' &&
@@ -65,9 +65,9 @@ async function handleRegister(): Promise<void> {
   try {
     if (registerTab.value === 'city') {
       registerResult.value = await weatherService.registerByCity({
-        cityName: registerCityName.value.trim(),
-        stateCode: registerStateCode.value.trim() || undefined,
-        countryCode: registerCountryCode.value.trim() || undefined,
+        city: registerCity.value.trim(),
+        state: registerState.value.trim() || undefined,
+        country: registerCountry.value.trim() || undefined,
       })
     } else {
       registerResult.value = await weatherService.registerByCoordinates({
@@ -89,7 +89,9 @@ const historyError = ref<string>('')
 const historyRecords = ref<WeatherRecordResponse[]>([])
 const historySearched = ref<boolean>(false)
 
-const historyCityName = ref<string>('')
+const historyCity = ref<string>('')
+const historyState = ref<string>('')
+const historyCountry = ref<string>('')
 const historyLatitude = ref<string>('')
 const historyLongitude = ref<string>('')
 
@@ -111,7 +113,7 @@ const historyLongitudeError = computed<string>(() => {
 
 const isHistoryValid = computed<boolean>(() => {
   if (historyTab.value === 'city') {
-    return historyCityName.value.trim().length > 0
+    return historyCity.value.trim().length > 0
   }
   return (
     historyLatitude.value !== '' &&
@@ -136,7 +138,11 @@ async function handleHistory(): Promise<void> {
 
   try {
     if (historyTab.value === 'city') {
-      historyRecords.value = await weatherService.getHistoryByCity(historyCityName.value.trim())
+      historyRecords.value = await weatherService.getHistoryByCity(
+        historyCity.value.trim(),
+        historyState.value.trim() || undefined,
+        historyCountry.value.trim() || undefined,
+      )
     } else {
       historyRecords.value = await weatherService.getHistoryByCoordinates(
         Number(historyLatitude.value),
@@ -210,7 +216,7 @@ function formatCoordinates(lat: number, lon: number): string {
               <label for="reg-city">Cidade *</label>
               <input
                 id="reg-city"
-                v-model="registerCityName"
+                v-model="registerCity"
                 type="text"
                 class="input"
                 placeholder="Ex: São Paulo"
@@ -219,25 +225,23 @@ function formatCoordinates(lat: number, lon: number): string {
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label for="reg-state">Código do estado</label>
+                <label for="reg-state">Estado</label>
                 <input
                   id="reg-state"
-                  v-model="registerStateCode"
+                  v-model="registerState"
                   type="text"
                   class="input"
-                  placeholder="Ex: SP"
-                  maxlength="2"
+                  placeholder="Ex: Paraná ou PR "
                 >
               </div>
               <div class="form-group">
-                <label for="reg-country">Código do país</label>
+                <label for="reg-country">País</label>
                 <input
                   id="reg-country"
-                  v-model="registerCountryCode"
+                  v-model="registerCountry"
                   type="text"
                   class="input"
-                  placeholder="Ex: BR"
-                  maxlength="2"
+                  placeholder="Ex: BR ou Brazil"
                 >
               </div>
             </div>
@@ -292,7 +296,15 @@ function formatCoordinates(lat: number, lon: number): string {
           <div class="result-card__grid">
             <div class="result-card__item">
               <span class="result-card__label">Cidade</span>
-              <span class="result-card__value">{{ registerResult.cityName }}</span>
+              <span class="result-card__value">{{ registerResult.city }}</span>
+            </div>
+            <div class="result-card__item">
+              <span class="result-card__label">Estado</span>
+              <span class="result-card__value">{{ registerResult.state ?? '—' }}</span>
+            </div>
+            <div class="result-card__item">
+              <span class="result-card__label">País</span>
+              <span class="result-card__value">{{ registerResult.country ?? '—' }}</span>
             </div>
             <div class="result-card__item">
               <span class="result-card__label">Temperatura</span>
@@ -353,12 +365,35 @@ function formatCoordinates(lat: number, lon: number): string {
               <label for="hist-city">Cidade</label>
               <input
                 id="hist-city"
-                v-model="historyCityName"
+                v-model="historyCity"
                 type="text"
                 class="input"
                 placeholder="Ex: São Paulo"
                 @input="historySearched = false"
               >
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="hist-state">Estado</label>
+                <input
+                  id="hist-state"
+                  v-model="historyState"
+                  type="text"
+                  class="input"
+                  placeholder="Ex: Paraná ou PR"
+                >
+              </div>
+              <div class="form-group">
+                <label for="hist-country">País</label>
+                <input
+                  id="hist-country"
+                  v-model="historyCountry"
+                  type="text"
+                  class="input"
+                  placeholder="Ex: BR"
+                  maxlength="2"
+                >
+              </div>
             </div>
           </template>
 
@@ -415,6 +450,8 @@ function formatCoordinates(lat: number, lon: number): string {
             <thead>
               <tr>
                 <th>Cidade</th>
+                <th>Estado</th>
+                <th>País</th>
                 <th>Temperatura</th>
                 <th>Coordenadas</th>
                 <th>Data</th>
@@ -422,7 +459,9 @@ function formatCoordinates(lat: number, lon: number): string {
             </thead>
             <tbody>
               <tr v-for="record in historyRecords" :key="record.id">
-                <td>{{ record.cityName }}</td>
+                <td>{{ record.city }}</td>
+                <td>{{ record.state ?? '—' }}</td>
+                <td>{{ record.country ?? '—' }}</td>
                 <td>{{ formatTemperature(record.temperature) }}</td>
                 <td>{{ formatCoordinates(record.latitude, record.longitude) }}</td>
                 <td>{{ formatDate(record.recordedAt) }}</td>

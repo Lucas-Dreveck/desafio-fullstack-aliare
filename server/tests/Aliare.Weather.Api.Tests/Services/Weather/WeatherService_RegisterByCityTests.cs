@@ -16,14 +16,16 @@ public class WeatherService_RegisterByCityTests
 
         mockProvider
             .Setup(p => p.GetByCityAsync("Cascavel", null, null))
-            .ReturnsAsync(new WeatherResponse("Cascavel", 25.0, 90, 180));
+            .ReturnsAsync(new WeatherResponse("Cascavel", "Paraná", "BR", 25.0, 90, 180));
 
         WeatherService service = new(mockProvider.Object, mockRepository.Object);
 
         WeatherRecord result = await service.RegisterByCityAsync("Cascavel");
 
         Assert.NotNull(result);
-        Assert.Equal("Cascavel", result.CityName);
+        Assert.Equal("Cascavel", result.City);
+        Assert.Equal("Paraná", result.State);
+        Assert.Equal("BR", result.Country);
         Assert.Equal(25.0, result.Temperature);
         mockRepository.Verify(r => r.AddAsync(It.IsAny<WeatherRecord>()), Times.Once);
     }

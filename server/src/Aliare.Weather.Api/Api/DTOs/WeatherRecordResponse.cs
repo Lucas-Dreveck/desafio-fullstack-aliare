@@ -2,7 +2,9 @@ namespace Aliare.Weather.Api.Api.DTOs;
 
 public record WeatherRecordResponse(
     int Id,
-    string CityName,
+    string City,
+    string? State,
+    string? Country,
     double Temperature,
     double Latitude,
     double Longitude,

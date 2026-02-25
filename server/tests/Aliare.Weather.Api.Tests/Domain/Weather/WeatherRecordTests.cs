@@ -11,19 +11,19 @@ public class WeatherRecordTests
     }
 
     [Fact]
-    public void Constructor_WithEmptyCityName_ShouldThrowException()
+    public void Constructor_WithEmptyCity_ShouldThrowException()
     {
-        string cityName = string.Empty;
+        string city = string.Empty;
 
-        Assert.Throws<ArgumentException>(() => new WeatherRecord(cityName, 25.0, -00.0, -00.0, DateTime.UtcNow));
+        Assert.Throws<ArgumentException>(() => new WeatherRecord(city, 25.0, -00.0, -00.0, DateTime.UtcNow));
     }
 
     [Fact]
-    public void Constructor_WithNullCityName_ShouldThrowException()
+    public void Constructor_WithNullCity_ShouldThrowException()
     {
-        string? cityName = null;
+        string? city = null;
 
-        Assert.Throws<ArgumentNullException>(() => new WeatherRecord(cityName!, 25.0, -00.0, -00.0, DateTime.UtcNow));
+        Assert.Throws<ArgumentNullException>(() => new WeatherRecord(city!, 25.0, -00.0, -00.0, DateTime.UtcNow));
     }
 
     [Fact]

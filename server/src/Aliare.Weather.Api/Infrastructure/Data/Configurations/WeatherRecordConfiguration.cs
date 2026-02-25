@@ -15,9 +15,15 @@ public class WeatherRecordConfiguration : IEntityTypeConfiguration<WeatherRecord
         builder.Property(e => e.Id)
             .ValueGeneratedOnAdd();
 
-        builder.Property(e => e.CityName)
+        builder.Property(e => e.City)
             .IsRequired()
             .HasMaxLength(200);
+
+        builder.Property(e => e.State)
+            .HasMaxLength(200);
+
+        builder.Property(e => e.Country)
+            .HasMaxLength(10);
 
         builder.Property(e => e.Temperature)
             .IsRequired();
@@ -31,7 +37,7 @@ public class WeatherRecordConfiguration : IEntityTypeConfiguration<WeatherRecord
         builder.Property(e => e.RecordedAt)
             .IsRequired();
 
-        builder.HasIndex(e => e.CityName);
+        builder.HasIndex(e => e.City);
         builder.HasIndex(e => new { e.Latitude, e.Longitude });
     }
 }

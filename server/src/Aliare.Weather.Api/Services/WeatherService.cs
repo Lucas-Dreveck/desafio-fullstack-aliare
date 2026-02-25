@@ -6,18 +6,20 @@ namespace Aliare.Weather.Api.Services;
 
 public class WeatherService(IWeatherProvider weatherProvider, IWeatherRepository weatherRepository)
 {
-    public async Task<WeatherRecord> RegisterByCityAsync(string cityName, string? stateCode = null, string? countryCode = null)
+    public async Task<WeatherRecord> RegisterByCityAsync(string city, string? state = null, string? country = null)
     {
-        WeatherRecord.ValidateCityName(cityName);
-        WeatherResponse response = await weatherProvider.GetByCityAsync(cityName, stateCode, countryCode)
-            ?? throw new InvalidOperationException($"Failed to retrieve weather data for city: {cityName}");
+        WeatherRecord.ValidateCity(city);
+        WeatherResponse response = await weatherProvider.GetByCityAsync(city, state, country)
+            ?? throw new InvalidOperationException($"Failed to retrieve weather data for city: {city}");
 
-        WeatherRecord record = new WeatherRecord(
-            response.CityName,
+        WeatherRecord record = new(
+            response.City,
             response.Temperature,
             response.Latitude,
             response.Longitude,
-            DateTime.UtcNow
+            DateTime.UtcNow,
+            response.State,
+            response.Country
         );
 
         await weatherRepository.AddAsync(record);
@@ -32,12 +34,14 @@ public class WeatherService(IWeatherProvider weatherProvider, IWeatherRepository
         WeatherResponse response = await weatherProvider.GetByCoordinatesAsync(latitude, longitude)
             ?? throw new InvalidOperationException($"Failed to retrieve weather data for coordinates: ({latitude}, {longitude})");
 
-        WeatherRecord record = new WeatherRecord(
-            response.CityName,
+        WeatherRecord record = new(
+            response.City,
             response.Temperature,
             response.Latitude,
             response.Longitude,
-            DateTime.UtcNow
+            DateTime.UtcNow,
+            response.State,
+            response.Country
         );
 
         await weatherRepository.AddAsync(record);
@@ -45,10 +49,10 @@ public class WeatherService(IWeatherProvider weatherProvider, IWeatherRepository
         return record;
     }
 
-    public async Task<IEnumerable<WeatherRecord>> GetHistoryByCityAsync(string cityName, int days = 30)
+    public async Task<IEnumerable<WeatherRecord>> GetHistoryByCityAsync(string city, string? state = null, string? country = null, int days = 30)
     {
-        WeatherRecord.ValidateCityName(cityName);
-        return await weatherRepository.GetByCityAsync(cityName, days);
+        WeatherRecord.ValidateCity(city);
+        return await weatherRepository.GetByCityAsync(city, state, country, days);
     }
 
     public async Task<IEnumerable<WeatherRecord>> GetHistoryByCoordinatesAsync(double latitude, double longitude, int days = 30)

@@ -16,14 +16,16 @@ public class WeatherService_RegisterByCoordinatesTests
 
         mockProvider
             .Setup(p => p.GetByCoordinatesAsync(90, 180))
-            .ReturnsAsync(new WeatherResponse("Cascavel", 25.0, 90, 180));
+            .ReturnsAsync(new WeatherResponse("Cascavel", "Paraná", "BR", 25.0, 90, 180));
 
         WeatherService service = new(mockProvider.Object, mockRepository.Object);
 
         WeatherRecord result = await service.RegisterByCoordinatesAsync(90, 180);
 
         Assert.NotNull(result);
-        Assert.Equal("Cascavel", result.CityName);
+        Assert.Equal("Cascavel", result.City);
+        Assert.Equal("Paraná", result.State);
+        Assert.Equal("BR", result.Country);
         Assert.Equal(90, result.Latitude);
         Assert.Equal(180, result.Longitude);
         Assert.Equal(25.0, result.Temperature);

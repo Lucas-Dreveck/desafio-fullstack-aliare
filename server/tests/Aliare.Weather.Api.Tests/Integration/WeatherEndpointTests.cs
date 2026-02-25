@@ -36,7 +36,9 @@ public class WeatherEndpointTests : IClassFixture<CustomWebApplicationFactory>
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         WeatherRecordResponse? body = await response.Content.ReadFromJsonAsync<WeatherRecordResponse>();
         Assert.NotNull(body);
-        Assert.Equal("Cascavel", body.CityName);
+        Assert.Equal("Cascavel", body.City);
+        Assert.Equal("Paraná", body.State);
+        Assert.Equal("BR", body.Country);
         Assert.Equal(25.0, body.Temperature);
     }
 
