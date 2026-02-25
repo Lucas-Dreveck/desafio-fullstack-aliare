@@ -19,7 +19,7 @@ const themeLabel = computed<string>(() => {
 })
 
 async function handleLogout(): Promise<void> {
-  authStore.logout()
+  await authStore.logout()
   await router.push({ name: 'login' })
 }
 </script>

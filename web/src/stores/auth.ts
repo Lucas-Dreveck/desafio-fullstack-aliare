@@ -1,11 +1,11 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import type { AxiosError } from 'axios'
-import { AUTH_TOKEN_KEY } from '@/api/client'
+import { setAccessToken, getAccessToken } from '@/api/client'
 import { authService } from '@/services/authService'
 import type { LoginRequest, RegisterUserRequest } from '@/types/auth'
 import type { ApiErrorResponse } from '@/types/api'
-import { isTokenExpired, decodeJwt } from '@/utils/jwt'
+import { decodeJwt } from '@/utils/jwt'
 import type { JwtPayload } from '@/utils/jwt'
 
 function extractErrorMessage(error: unknown): string {
@@ -22,29 +22,9 @@ function extractErrorMessage(error: unknown): string {
   return 'Ocorreu um erro inesperado. Tente novamente.'
 }
 
-async function loginRequest(request: LoginRequest): Promise<string> {
-  const response = await authService.login(request)
-  return response.token
-}
-
-async function registerRequest(request: RegisterUserRequest): Promise<string> {
-  const response = await authService.register(request)
-  return response.message
-}
-
-function loadValidToken(): string | null {
-  const stored: string | null = localStorage.getItem(AUTH_TOKEN_KEY)
-
-  if (!stored || isTokenExpired(stored)) {
-    localStorage.removeItem(AUTH_TOKEN_KEY)
-    return null
-  }
-
-  return stored
-}
-
 export const useAuthStore = defineStore('auth', () => {
-  const token = ref<string | null>(loadValidToken())
+  const token = ref<string | null>(getAccessToken())
+  const initialized = ref<boolean>(false)
 
   const isAuthenticated = computed<boolean>(() => token.value !== null)
 
@@ -55,31 +35,51 @@ export const useAuthStore = defineStore('auth', () => {
 
   const username = computed<string>(() => userPayload.value?.unique_name ?? '')
 
-  function setToken(newToken: string): void {
+  function updateToken(newToken: string | null): void {
     token.value = newToken
-    localStorage.setItem(AUTH_TOKEN_KEY, newToken)
+    setAccessToken(newToken)
   }
 
-  function clearToken(): void {
-    token.value = null
-    localStorage.removeItem(AUTH_TOKEN_KEY)
+  async function init(): Promise<void> {
+    if (initialized.value) return
+
+    try {
+      const response = await authService.refresh()
+      updateToken(response.token)
+    } catch {
+      updateToken(null)
+    } finally {
+      initialized.value = true
+    }
   }
 
   async function login(request: LoginRequest): Promise<void> {
-    const tokenValue: string = await loginRequest(request)
-    setToken(tokenValue)
+    const response = await authService.login(request)
+    updateToken(response.token)
   }
 
-  function logout(): void {
-    clearToken()
+  async function register(request: RegisterUserRequest): Promise<string> {
+    const response = await authService.register(request)
+    return response.message
+  }
+
+  async function logout(): Promise<void> {
+    try {
+      await authService.logout()
+    } catch {
+      // Server-side revocation failed, clear locally anyway
+    }
+    updateToken(null)
   }
 
   return {
     token,
+    initialized,
     isAuthenticated,
     username,
+    init,
     login,
-    register: registerRequest,
+    register,
     logout,
     extractErrorMessage,
   }
