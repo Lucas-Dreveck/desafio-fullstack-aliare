@@ -2,7 +2,7 @@
 
 public class WeatherRecord
 {
-    public int Id { get; private set; }
+    public int Id { get; init; }
     public string CityName { get; private set; }
     public double Temperature { get; private set; }
     public double Latitude { get; private set; }
