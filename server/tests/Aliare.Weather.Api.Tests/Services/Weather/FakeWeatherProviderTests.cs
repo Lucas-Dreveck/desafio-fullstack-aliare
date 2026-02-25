@@ -13,7 +13,9 @@ public class FakeWeatherProviderTests
         WeatherResponse? result = await _provider.GetByCityAsync("Cascavel");
 
         Assert.NotNull(result);
-        Assert.Equal("Cascavel", result.CityName);
+        Assert.Equal("Cascavel", result.City);
+        Assert.Equal("Paraná", result.State);
+        Assert.Equal("BR", result.Country);
     }
 
     [Fact]
@@ -30,7 +32,7 @@ public class FakeWeatherProviderTests
         WeatherResponse? result = await _provider.GetByCityAsync("cascavel");
 
         Assert.NotNull(result);
-        Assert.Equal("Cascavel", result.CityName);
+        Assert.Equal("Cascavel", result.City);
     }
 
     [Fact]
@@ -39,6 +41,8 @@ public class FakeWeatherProviderTests
         WeatherResponse? result = await _provider.GetByCoordinatesAsync(-24.95, -53.45);
 
         Assert.NotNull(result);
-        Assert.Equal("Cascavel", result.CityName);
+        Assert.Equal("Cascavel", result.City);
+        Assert.Equal("Paraná", result.State);
+        Assert.Equal("BR", result.Country);
     }
 }

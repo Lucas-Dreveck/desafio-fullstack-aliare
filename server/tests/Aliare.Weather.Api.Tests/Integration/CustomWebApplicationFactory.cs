@@ -36,11 +36,11 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
             _mockWeatherProvider
                 .Setup(p => p.GetByCityAsync("Cascavel", null, null))
-                .ReturnsAsync(new WeatherResponse("Cascavel", 25.0, -24.95, -53.45));
+                .ReturnsAsync(new WeatherResponse("Cascavel", "Paraná", "BR", 25.0, -24.95, -53.45));
 
             _mockWeatherProvider
                 .Setup(p => p.GetByCoordinatesAsync(-24.95, -53.45))
-                .ReturnsAsync(new WeatherResponse("Cascavel", 25.0, -24.95, -53.45));
+                .ReturnsAsync(new WeatherResponse("Cascavel", "Paraná", "BR", 25.0, -24.95, -53.45));
 
             services.AddScoped<IWeatherProvider>(_ => _mockWeatherProvider.Object);
         });
