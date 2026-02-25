@@ -5,6 +5,7 @@ using Aliare.Weather.Api.Domain.Entities;
 using Aliare.Weather.Api.Domain.Interfaces;
 using Aliare.Weather.Api.Infrastructure.Options;
 using Aliare.Weather.Api.Services;
+using Aliare.Weather.Api.Services.Models;
 using Microsoft.Extensions.Options;
 
 namespace Aliare.Weather.Api.Tests.Services.Auth;
@@ -17,7 +18,8 @@ public class AuthService_LoginTests
         SecretKey = "TestSecretKeyThatIsAtLeast32Characters!",
         Issuer = "TestIssuer",
         Audience = "TestAudience",
-        ExpirationInMinutes = 60
+        ExpirationInMinutes = 15,
+        RefreshTokenExpirationInDays = 7
     });
 
     [Fact]
@@ -30,11 +32,11 @@ public class AuthService_LoginTests
 
         AuthService service = new(_mockUserRepository.Object, _jwtOptions);
 
-        string token = await service.LoginAsync("aliare@test.com", "123456");
+        AuthResult result = await service.LoginAsync("aliare@test.com", "123456");
 
-        Assert.NotNull(token);
-        Assert.NotEmpty(token);
-        Assert.Contains(".", token);
+        Assert.NotNull(result.AccessToken);
+        Assert.NotEmpty(result.AccessToken);
+        Assert.Contains(".", result.AccessToken);
     }
 
     [Fact]
@@ -48,10 +50,10 @@ public class AuthService_LoginTests
 
         AuthService service = new(_mockUserRepository.Object, _jwtOptions);
 
-        string token = await service.LoginAsync("aliare@test.com", "123456");
+        AuthResult result = await service.LoginAsync("aliare@test.com", "123456");
 
         JwtSecurityTokenHandler handler = new();
-        JwtSecurityToken jwt = handler.ReadJwtToken(token);
+        JwtSecurityToken jwt = handler.ReadJwtToken(result.AccessToken);
         string? sub = jwt.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
         Assert.NotNull(sub);
