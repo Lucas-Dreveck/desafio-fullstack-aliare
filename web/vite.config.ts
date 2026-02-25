@@ -29,4 +29,16 @@ export default defineConfig({
       },
     },
   },
+  preview: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5251',
+        changeOrigin: true,
+      },
+      '/health': {
+        target: 'http://localhost:5251',
+        changeOrigin: true,
+      },
+    },
+  },
 })

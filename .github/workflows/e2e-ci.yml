@@ -1,0 +1,80 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [development, main]
+    paths:
+      - "web/**"
+      - "server/**"
+      - "docker-compose.yml"
+      - ".github/workflows/e2e-ci.yml"
+  pull_request:
+    branches: [development, main]
+    paths:
+      - "web/**"
+      - "server/**"
+      - "docker-compose.yml"
+      - ".github/workflows/e2e-ci.yml"
+
+jobs:
+  e2e:
+    name: Playwright E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Start backend services
+        run: docker compose up -d db api
+        env:
+          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        working-directory: web
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: web
+        run: npm run build-only
+
+      - name: Install Playwright Chromium
+        working-directory: web
+        run: npx playwright install --with-deps chromium
+
+      - name: Wait for API health check
+        run: |
+          echo "Waiting for API to be ready..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:5251/health > /dev/null 2>&1; then
+              echo "API is ready!"
+              exit 0
+            fi
+            echo "Attempt $i/30 — API not ready yet, waiting 5s..."
+            sleep 5
+          done
+          echo "API failed to start within 150s"
+          docker compose logs api
+          exit 1
+
+      - name: Run Playwright tests
+        working-directory: web
+        run: npx playwright test --project=chromium
+        env:
+          CI: true
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-results
+          path: web/test-results/
+          retention-days: 7
