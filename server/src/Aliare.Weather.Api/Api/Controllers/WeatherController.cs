@@ -16,7 +16,7 @@ public class WeatherController(WeatherService weatherService) : BaseApiControlle
     {
         try
         {
-            WeatherRecord record = await weatherService.RegisterByCityAsync(request.CityName, request.StateCode, request.CountryCode);
+            WeatherRecord record = await weatherService.RegisterByCityAsync(request.City, request.State, request.Country);
             return Ok(ToResponse(record));
         }
         catch (ArgumentException ex)
@@ -48,12 +48,15 @@ public class WeatherController(WeatherService weatherService) : BaseApiControlle
         }
     }
 
-    [HttpGet("history/by-city/{cityName}")]
-    public async Task<IActionResult> GetHistoryByCity(string cityName)
+    [HttpGet("history/by-city/{city}")]
+    public async Task<IActionResult> GetHistoryByCity(
+        string city,
+        [FromQuery] string? state = null,
+        [FromQuery] string? country = null)
     {
         try
         {
-            IEnumerable<WeatherRecord> records = await weatherService.GetHistoryByCityAsync(cityName);
+            IEnumerable<WeatherRecord> records = await weatherService.GetHistoryByCityAsync(city, state, country);
             return Ok(records.Select(ToResponse));
         }
         catch (ArgumentException ex)
@@ -80,7 +83,9 @@ public class WeatherController(WeatherService weatherService) : BaseApiControlle
     {
         return new WeatherRecordResponse(
             record.Id,
-            record.CityName,
+            record.City,
+            record.State,
+            record.Country,
             record.Temperature,
             record.Latitude,
             record.Longitude,
