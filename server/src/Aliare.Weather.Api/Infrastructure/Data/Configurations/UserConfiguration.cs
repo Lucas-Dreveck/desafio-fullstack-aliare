@@ -13,7 +13,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id)
-            .ValueGeneratedOnAdd();
+            .ValueGeneratedNever();
 
         builder.Property(e => e.Username)
             .IsRequired()

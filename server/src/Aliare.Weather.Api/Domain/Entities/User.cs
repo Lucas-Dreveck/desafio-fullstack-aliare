@@ -2,7 +2,7 @@ namespace Aliare.Weather.Api.Domain.Entities;
 
 public class User
 {
-    public int Id { get; private set; }
+    public Guid Id { get; init; } = Guid.NewGuid();
     public string Username { get; private set; }
     public string Email { get; private set; }
     public string PasswordHash { get; private set; }

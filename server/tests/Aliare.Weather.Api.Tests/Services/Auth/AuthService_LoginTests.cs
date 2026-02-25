@@ -1,3 +1,5 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Moq;
 using Aliare.Weather.Api.Domain.Entities;
 using Aliare.Weather.Api.Domain.Interfaces;
@@ -33,6 +35,28 @@ public class AuthService_LoginTests
         Assert.NotNull(token);
         Assert.NotEmpty(token);
         Assert.Contains(".", token);
+    }
+
+    [Fact]
+    public async Task LoginAsync_WithValidCredentials_ShouldReturnTokenWithGuidSubClaim()
+    {
+        string passwordHash = BCrypt.Net.BCrypt.HashPassword("123456");
+        User user = new("aliare", "aliare@test.com", passwordHash);
+        _mockUserRepository
+            .Setup(r => r.GetByEmailAsync("aliare@test.com"))
+            .ReturnsAsync(user);
+
+        AuthService service = new(_mockUserRepository.Object, _jwtOptions);
+
+        string token = await service.LoginAsync("aliare@test.com", "123456");
+
+        JwtSecurityTokenHandler handler = new();
+        JwtSecurityToken jwt = handler.ReadJwtToken(token);
+        string? sub = jwt.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        Assert.NotNull(sub);
+        Assert.True(Guid.TryParse(sub, out Guid parsedGuid));
+        Assert.Equal(user.Id, parsedGuid);
     }
 
     [Fact]
