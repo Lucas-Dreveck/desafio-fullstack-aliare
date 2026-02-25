@@ -12,12 +12,15 @@ vi.mock('@/services/authService', () => ({
   authService: {
     login: vi.fn(),
     register: vi.fn(),
+    refresh: vi.fn(),
+    logout: vi.fn(),
   },
 }))
 
 vi.mock('@/api/client', () => ({
   default: {},
-  AUTH_TOKEN_KEY: 'auth_token',
+  setAccessToken: vi.fn(),
+  getAccessToken: vi.fn(() => null),
 }))
 
 import { authService } from '@/services/authService'
