@@ -20,39 +20,39 @@ public class OpenWeatherProvider(HttpClient httpClient, IOptions<OpenWeatherOpti
         if (!string.IsNullOrWhiteSpace(countryCode))
             query += $",{countryCode}";
 
-        var geoUrl = $"{_options.GeoUrl}/direct?q={Uri.EscapeDataString(query)}&limit=1&appid={_options.ApiKey}";
-        var geoResponse = await httpClient.GetAsync(geoUrl);
+        string geoUrl = $"{_options.GeoUrl}/direct?q={Uri.EscapeDataString(query)}&limit=1&appid={_options.ApiKey}";
+        HttpResponseMessage geoResponse = await httpClient.GetAsync(geoUrl);
         geoResponse.EnsureSuccessStatusCode();
 
-        var geoJson = await geoResponse.Content.ReadAsStringAsync();
-        var geoArray = JsonDocument.Parse(geoJson).RootElement;
+        string geoJson = await geoResponse.Content.ReadAsStringAsync();
+        JsonElement geoArray = JsonDocument.Parse(geoJson).RootElement;
 
         if (geoArray.GetArrayLength() == 0)
             return null;
 
-        var location = geoArray[0];
-        var lat = location.GetProperty("lat").GetDouble();
-        var lon = location.GetProperty("lon").GetDouble();
+        JsonElement location = geoArray[0];
+        double lat = location.GetProperty("lat").GetDouble();
+        double lon = location.GetProperty("lon").GetDouble();
 
         return await GetByCoordinatesAsync(lat, lon);
     }
 
     public async Task<WeatherResponse?> GetByCoordinatesAsync(double latitude, double longitude)
     {
-        var url = string.Format(
+        string url = string.Format(
             CultureInfo.InvariantCulture,
             "{0}/weather?lat={1}&lon={2}&appid={3}&units=metric",
             _options.BaseUrl, latitude, longitude, _options.ApiKey);
 
-        var response = await httpClient.GetAsync(url);
+        HttpResponseMessage response = await httpClient.GetAsync(url);
 
         if (response.StatusCode == HttpStatusCode.NotFound)
             return null;
 
         response.EnsureSuccessStatusCode();
 
-        var json = await response.Content.ReadAsStringAsync();
-        var root = JsonDocument.Parse(json).RootElement;
+        string json = await response.Content.ReadAsStringAsync();
+        JsonElement root = JsonDocument.Parse(json).RootElement;
 
         return new WeatherResponse(
             CityName: root.GetProperty("name").GetString()!,
