@@ -1,9 +1,11 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Aliare.Weather.Api.Domain.Entities;
 using Aliare.Weather.Api.Domain.Interfaces;
 using Aliare.Weather.Api.Infrastructure.Options;
+using Aliare.Weather.Api.Services.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -32,7 +34,7 @@ public class AuthService(IUserRepository userRepository, IOptions<JwtOptions> jw
         return user;
     }
 
-    public async Task<string> LoginAsync(string email, string password)
+    public async Task<AuthResult> LoginAsync(string email, string password)
     {
         User? user = await userRepository.GetByEmailAsync(email)
             ?? throw new InvalidOperationException("Invalid email or password.");
@@ -41,10 +43,42 @@ public class AuthService(IUserRepository userRepository, IOptions<JwtOptions> jw
         if (!valid)
             throw new InvalidOperationException("Invalid email or password.");
 
-        return GenerateToken(user);
+        string accessToken = GenerateAccessToken(user);
+        string refreshToken = GenerateRefreshToken();
+
+        user.SetRefreshToken(refreshToken, DateTime.UtcNow.AddDays(_jwt.RefreshTokenExpirationInDays));
+        await userRepository.UpdateAsync(user);
+
+        return new AuthResult(accessToken, refreshToken);
     }
 
-    private string GenerateToken(User user)
+    public async Task<AuthResult> RefreshAsync(string refreshToken)
+    {
+        User? user = await userRepository.GetByRefreshTokenAsync(refreshToken)
+            ?? throw new InvalidOperationException("Invalid refresh token.");
+
+        if (user.RefreshTokenExpiresAt is null || user.RefreshTokenExpiresAt <= DateTime.UtcNow)
+            throw new InvalidOperationException("Refresh token has expired.");
+
+        string newAccessToken = GenerateAccessToken(user);
+        string newRefreshToken = GenerateRefreshToken();
+
+        user.SetRefreshToken(newRefreshToken, DateTime.UtcNow.AddDays(_jwt.RefreshTokenExpirationInDays));
+        await userRepository.UpdateAsync(user);
+
+        return new AuthResult(newAccessToken, newRefreshToken);
+    }
+
+    public async Task RevokeRefreshTokenAsync(Guid userId)
+    {
+        User? user = await userRepository.GetByIdAsync(userId)
+            ?? throw new InvalidOperationException("User not found.");
+
+        user.ClearRefreshToken();
+        await userRepository.UpdateAsync(user);
+    }
+
+    private string GenerateAccessToken(User user)
     {
         Claim[] claims =
         [
@@ -65,5 +99,11 @@ public class AuthService(IUserRepository userRepository, IOptions<JwtOptions> jw
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    private static string GenerateRefreshToken()
+    {
+        byte[] randomBytes = RandomNumberGenerator.GetBytes(64);
+        return Convert.ToBase64String(randomBytes);
     }
 }
