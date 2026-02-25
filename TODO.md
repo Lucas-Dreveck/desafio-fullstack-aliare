@@ -1,7 +1,7 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Substituir `var` por tipos explícitos em todo o backend;
+- [ ] Inserir UID público no User — não expor IDs sequenciais;
 
 ## Concluído
 
@@ -15,6 +15,7 @@
 - [x] Adicionar autenticação JWT;
 - [x] Validar testes unitários e de integração;
 - [x] Adicionar feature flag para troca de provedor;
+- [x] Substituir `var` por tipos explícitos em todo o backend;
 
 ### Frontend
 - [x] Configurar estilo padrão e rotas;
@@ -36,7 +37,6 @@
 ## A fazer (Backlog)
 
 ### Backend
-- [ ] Inserir UID público no User — não expor IDs sequenciais;
 - [ ] Tratar cidades homônimas e tolerância de coordenadas no histórico;
 - [ ] Implementar refresh token (backend + frontend);
 

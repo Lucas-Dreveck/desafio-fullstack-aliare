@@ -14,7 +14,7 @@ public class WeatherRepository(WeatherDbContext context) : IWeatherRepository
 
     public async Task<IEnumerable<WeatherRecord>> GetByCityAsync(string cityName, int days = 30)
     {
-        var since = DateTime.UtcNow.AddDays(-days);
+        DateTime since = DateTime.UtcNow.AddDays(-days);
 
         return await context.WeatherRecords
             .Where(r => r.CityName == cityName && r.RecordedAt >= since)
@@ -24,10 +24,13 @@ public class WeatherRepository(WeatherDbContext context) : IWeatherRepository
 
     public async Task<IEnumerable<WeatherRecord>> GetByCoordinatesAsync(double latitude, double longitude, int days = 30)
     {
-        var since = DateTime.UtcNow.AddDays(-days);
+        DateTime since = DateTime.UtcNow.AddDays(-days);
+        const double tolerance = 0.0001;
 
         return await context.WeatherRecords
-            .Where(r => r.Latitude == latitude && r.Longitude == longitude && r.RecordedAt >= since)
+            .Where(r => Math.Abs(r.Latitude - latitude) < tolerance
+                     && Math.Abs(r.Longitude - longitude) < tolerance
+                     && r.RecordedAt >= since)
             .OrderByDescending(r => r.RecordedAt)
             .ToListAsync();
     }

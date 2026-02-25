@@ -7,7 +7,7 @@ public class WeatherDbContextFactory : IDesignTimeDbContextFactory<WeatherDbCont
 {
     public WeatherDbContext CreateDbContext(string[] args)
     {
-        var options = new DbContextOptionsBuilder<WeatherDbContext>()
+        DbContextOptions<WeatherDbContext> options = new DbContextOptionsBuilder<WeatherDbContext>()
             .UseNpgsql("Host=localhost;Port=5432;Database=aliare_weather;Username=postgres;Password=postgres")
             .Options;
 

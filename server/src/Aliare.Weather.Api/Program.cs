@@ -4,7 +4,7 @@ using Aliare.Weather.Api.Services;
 using Asp.Versioning;
 using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
@@ -40,7 +40,7 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<Aliare.Weather.Api.Api.Filters.AuthorizeOperationFilter>();
 });
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 if (app.Configuration.GetValue<bool>("RunMigrations"))
 {
