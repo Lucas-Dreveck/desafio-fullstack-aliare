@@ -1,7 +1,7 @@
 # Plano de ação
 
 ## Em Andamento
-- [ ] Publicar imagens no Docker Hub;
+- Nenhuma tarefa no momento
 
 ## Concluído
 
@@ -39,6 +39,7 @@
 - [x] GitHub Actions completo (server + web);
 - [x] Configurar Docker Compose (API + PostgreSQL + Frontend via nginx);
 - [x] Documentar e guiar execução do projeto no `README.md`;
+- [x] Publicar imagens no Docker Hub;
 
 ## A fazer (Backlog)
 
@@ -50,7 +51,7 @@
 
 ### DevOps
 
-### Mobile (Opcional)
+### Mobile (Opcional) - Não implementado
 - [ ] Configurar Estilo e rotas baseado no Frontend;
 - [ ] Conexão API;
 - [ ] Replicação das telas Frontend;

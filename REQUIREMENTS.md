@@ -33,5 +33,5 @@ Validação baseada nos requisitos definidos em [CHALLENGE.md](CHALLENGE.md).
 
 ## Entrega
 
-- [ ] Resolução enviada via pull request.
-- [ ] Imagem Docker publicada em host público (Docker Hub).
+- [x] Resolução enviada via pull request.
+- [x] Imagem Docker publicada em host público (Docker Hub).

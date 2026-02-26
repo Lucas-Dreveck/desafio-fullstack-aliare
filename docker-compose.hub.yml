@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: aliare_weather
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  api:
+    image: lucasdreveck/aliare-weather-api
+    ports:
+      - "5251:8080"
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=aliare_weather;Username=postgres;Password=postgres"
+      Jwt__SecretKey: "DockerComposeSecretKeyAtLeast32CharsLong!"
+      Jwt__Issuer: "Aliare.Weather.Api"
+      Jwt__Audience: "Aliare.Weather.Client"
+      Jwt__ExpirationInMinutes: "15"
+      Jwt__RefreshTokenExpirationInDays: "7"
+      OpenWeather__ApiKey: "${OPENWEATHER_API_KEY:-YOUR_API_KEY_HERE}"
+      OpenWeather__BaseUrl: "https://api.openweathermap.org/data/2.5"
+      OpenWeather__GeoUrl: "http://api.openweathermap.org/geo/1.0"
+      WeatherProvider: "OpenWeather"
+      RunMigrations: "true"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    image: lucasdreveck/aliare-weather-web
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
