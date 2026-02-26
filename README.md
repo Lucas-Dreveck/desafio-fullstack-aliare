@@ -24,9 +24,11 @@ docker compose up --build -d
 | Serviço | URL |
 |---------|-----|
 | Frontend | http://localhost:3000 |
-| API | http://localhost:5251 |
-| Swagger | http://localhost:5251/swagger |
-| Health Check | http://localhost:5251/health |
+| Swagger | http://localhost:3000/swagger |
+| Health Check | http://localhost:3000/health |
+| API (direto) | http://localhost:5251 |
+
+> O nginx do frontend faz proxy reverso para a API — todas as rotas `/api`, `/swagger` e `/health` são acessíveis via `localhost:3000`.
 
 Para parar: `docker compose down` (adicione `-v` para limpar o volume do banco).
 
