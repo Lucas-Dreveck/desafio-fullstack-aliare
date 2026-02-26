@@ -2,40 +2,44 @@
 
 public class WeatherRecord
 {
-    public int Id { get; private set; }
-    public string CityName { get; private set; }
+    public int Id { get; init; }
+    public string City { get; private set; }
+    public string? State { get; private set; }
+    public string? Country { get; private set; }
     public double Temperature { get; private set; }
     public double Latitude { get; private set; }
     public double Longitude { get; private set; }
     public DateTime RecordedAt { get; private set; }
 
-    public WeatherRecord(string cityName, double temperature, double latitude, double longitude, DateTime recordedAt)
+    public WeatherRecord(string city, double temperature, double latitude, double longitude, DateTime recordedAt, string? state = null, string? country = null)
     {
-        ValidateCityName(cityName);
+        ValidateCity(city);
         ValidateLatitude(latitude);
         ValidateLongitude(longitude);
 
-        CityName = cityName;
+        City = city;
+        State = state;
+        Country = country;
         Temperature = temperature;
         Latitude = latitude;
         Longitude = longitude;
         RecordedAt = recordedAt;
     }
 
-    private static void ValidateCityName(string cityName)
+    public static void ValidateCity(string city)
     {
-        ArgumentNullException.ThrowIfNull(cityName);
-        if (string.IsNullOrWhiteSpace(cityName))
-            throw new ArgumentException("City name cannot be empty.", nameof(cityName));
+        ArgumentNullException.ThrowIfNull(city);
+        if (string.IsNullOrWhiteSpace(city))
+            throw new ArgumentException("City name cannot be empty.", nameof(city));
     }
 
-    private static void ValidateLatitude(double latitude)
+    public static void ValidateLatitude(double latitude)
     {
         if (latitude < -90 || latitude > 90)
             throw new ArgumentOutOfRangeException(nameof(latitude), "Latitude must be between -90 and 90.");
     }
 
-    private static void ValidateLongitude(double longitude)
+    public static void ValidateLongitude(double longitude)
     {
         if (longitude < -180 || longitude > 180)
             throw new ArgumentOutOfRangeException(nameof(longitude), "Longitude must be between -180 and 180.");

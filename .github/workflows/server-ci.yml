@@ -1,0 +1,44 @@
+name: Server CI
+
+on:
+  push:
+    branches: [development, main]
+    paths:
+      - 'server/**'
+      - '.github/workflows/server-ci.yml'
+  pull_request:
+    branches: [development, main]
+    paths:
+      - 'server/**'
+      - '.github/workflows/server-ci.yml'
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: server
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: |
+          dotnet restore src/Aliare.Weather.Api/Aliare.Weather.Api.csproj
+          dotnet restore tests/Aliare.Weather.Api.Tests/Aliare.Weather.Api.Tests.csproj
+
+      - name: Build
+        run: |
+          dotnet build src/Aliare.Weather.Api/Aliare.Weather.Api.csproj --no-restore -c Release
+          dotnet build tests/Aliare.Weather.Api.Tests/Aliare.Weather.Api.Tests.csproj --no-restore -c Release
+
+      - name: Test
+        run: dotnet test tests/Aliare.Weather.Api.Tests/Aliare.Weather.Api.Tests.csproj --no-build -c Release --verbosity normal
